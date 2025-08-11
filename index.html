@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎃 Spooky Halloween Quiz - Test Your Horror Knowledge!</title>
+    <meta name="description" content="Enter the haunted world of Halloween trivia! Test your knowledge of spooky traditions, horror movies, and supernatural legends with our interactive Halloween quiz.">
+    <meta name="keywords" content="halloween quiz, spooky trivia, horror quiz, halloween game, interactive quiz, pumpkin quiz">
+    <meta name="author" content="Halloween Quiz Adventure">
+    
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="🎃 Spooky Halloween Quiz - Test Your Horror Knowledge!">
+    <meta property="og:description" content="Enter the haunted world of Halloween trivia! Test your knowledge with our interactive spooky quiz.">
+    <meta property="og:image" content="https://halloween-quiz.netlify.app/halloween-preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="🎃 Spooky Halloween Quiz - Test Your Horror Knowledge!">
+    <meta property="twitter:description" content="Enter the haunted world of Halloween trivia! Test your knowledge with our interactive spooky quiz.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎃</text></svg>">
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Griffy&family=Chiller&family=Jolly+Lodger&family=Metal+Mania&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body class="min-h-screen transition-all duration-1000">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="text-center">
+            <div class="loading-pumpkin mb-4">🎃</div>
+            <div class="text-orange-300 text-xl font-bold eater-text">Loading Spooky Quiz...</div>
+            <div class="text-purple-300 text-sm mt-2">Summoning Halloween spirits...</div>
+        </div>
+    </div>
+
+    <!-- Cute Halloween Background -->
+    <div class="cute-halloween-bg" id="cuteHalloweenBg"></div>
+
+    <!-- Floating Halloween Elements -->
+    <div class="floating-bats" id="batsContainer"></div>
+    <div class="floating-ghosts" id="ghostsContainer"></div>
+    <div class="floating-spiders" id="spidersContainer"></div>
+
+    <!-- Start Screen -->
+    <div id="startScreen" class="min-h-screen flex items-center justify-center p-4 relative z-10" style="background: linear-gradient(135deg, #0f0f23 0%, #2d1b69 50%, #1a0033 100%);">
+        <div class="question-card rounded-3xl p-8 md:p-12 text-center max-w-4xl w-full bounce-in-spooky">
+            <div class="illustration mb-8">
+                🎃
+            </div>
+            <h1 class="spooky-title text-4xl md:text-6xl font-bold text-amber-400 mb-4">
+                SPOOKY HALLOWEEN QUIZ
+            </h1>
+            <p class="text-xl text-amber-200 mb-8 horror-text">
+                Enter if you dare... Test your Halloween knowledge!
+            </p>
+            
+            <!-- Player Name Input -->
+            <div class="mb-8 max-w-md mx-auto">
+                <label for="playerName" class="block text-lg font-semibold text-orange-300 mb-3">
+                    👤 Enter Your Spooky Name:
+                </label>
+                <input 
+                    type="text" 
+                    id="playerName" 
+                    placeholder="e.g., Ghostly Gamer, Pumpkin King..." 
+                    maxlength="20"
+                    class="w-full px-4 py-3 rounded-2xl bg-gradient-to-r from-purple-900/80 to-orange-900/80 border-2 border-orange-500/50 text-white placeholder-orange-300/70 text-center text-lg font-medium focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/30 transition-all duration-300"
+                />
+                <div class="text-sm text-orange-400 mt-2">Join the haunted leaderboard!</div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Quiz Info -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold text-purple-300 mb-4">🎮 Quiz Features</h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="bg-gradient-to-br from-amber-900/50 to-red-900/50 p-3 rounded-xl border border-amber-500/30">
+                            <div class="text-2xl mb-1">⏱️</div>
+                            <div class="text-sm font-semibold text-amber-300">20s per question</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-900/50 to-indigo-900/50 p-3 rounded-xl border border-purple-500/30">
+                            <div class="text-2xl mb-1">🦇</div>
+                            <div class="text-sm font-semibold text-purple-300">Spooky themes</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-red-900/50 to-amber-900/50 p-3 rounded-xl border border-red-500/30">
+                            <div class="text-2xl mb-1">👻</div>
+                            <div class="text-sm font-semibold text-red-300">Haunted scoring</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Leaderboard Preview -->
+                <div class="space-y-4">
+                    <h3 class="text-xl font-bold text-orange-300 mb-4">🏆 Top Haunters</h3>
+                    <div id="leaderboardPreview" class="space-y-2 max-h-48 overflow-y-auto">
+                        <!-- Leaderboard will be populated here -->
+                    </div>
+                    <div class="text-sm text-orange-400">
+                        <span id="totalPlayers">0</span> brave souls have entered!
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="startQuiz()" class="bg-gradient-to-r from-amber-600 via-red-600 to-purple-600 hover:from-amber-700 hover:via-red-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl text-xl transition-all duration-300 transform hover:scale-105 shadow-lg border-2 border-amber-400/50 eater-text">
+                ENTER THE HAUNTED QUIZ 👻
+            </button>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="hidden min-h-screen p-4 relative z-10 transition-all duration-1000">
+        <!-- Header -->
+        <div class="max-w-4xl mx-auto mb-6">
+            <div class="question-card rounded-2xl p-4 md:p-6">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <div class="text-lg font-bold text-amber-300">Question <span id="currentQ">1</span> of <span id="totalQ">10</span></div>
+                            <div class="text-sm text-purple-300">Score: <span id="score" class="font-bold text-amber-400">0</span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timer -->
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <svg class="w-16 h-16 transform -rotate-90">
+                                <circle cx="32" cy="32" r="28" stroke="rgba(139, 69, 19, 0.3)" stroke-width="4" fill="none"/>
+                                <circle id="timerCircle" cx="32" cy="32" r="28" stroke="#ff8c00" stroke-width="4" fill="none" 
+                                        stroke-dasharray="176" stroke-dashoffset="0" class="timer-circle"/>
+                            </svg>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span id="timeLeft" class="text-xl font-bold text-amber-300">20</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="mt-4">
+                    <div class="w-full bg-gray-800 rounded-full h-3 border border-orange-500/30">
+                        <div id="progressBar" class="progress-fill h-3 rounded-full" style="width: 10%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="max-w-4xl mx-auto">
+            <div id="questionCard" class="question-card rounded-3xl p-6 md:p-8 slide-in-spooky">
+                <!-- Illustration -->
+                <div id="questionIllustration" class="illustration mb-6">
+                    🤔
+                </div>
+                
+                <!-- Question -->
+                <h2 id="questionText" class="text-2xl md:text-3xl font-bold text-orange-200 mb-8 text-center leading-relaxed">
+                    Loading spooky question...
+                </h2>
+                
+                <!-- Options -->
+                <div id="optionsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Options will be inserted here -->
+                </div>
+                
+                <!-- Auto-advance indicator -->
+                <div id="autoAdvance" class="hidden mt-6 text-center">
+                    <div class="inline-flex items-center space-x-2 bg-orange-900/50 text-orange-300 px-4 py-2 rounded-full border border-orange-500/30">
+                        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                        <span class="text-sm font-medium">Next haunting in <span id="advanceTimer">3</span>s...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="resultsScreen" class="hidden min-h-screen flex items-center justify-center p-4 relative z-10 bg-vampire-castle">
+        <div class="question-card rounded-3xl p-8 md:p-12 text-center max-w-4xl w-full bounce-in-spooky">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Personal Results -->
+                <div>
+                    <div id="resultsContent">
+                        <!-- Results will be inserted here -->
+                    </div>
+                    
+                    <div class="mt-8 space-y-4">
+                        <button onclick="restartQuiz()" class="bg-gradient-to-r from-purple-600 to-orange-600 hover:from-purple-700 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 mr-2 border-2 border-purple-400/50">
+                            Haunt Again 🔄
+                        </button>
+                        <button onclick="shareResults()" class="bg-gradient-to-r from-green-600 to-red-600 hover:from-green-700 hover:to-red-700 text-white font-bold py-3 px-6 rounded-2xl text-lg transition-all duration-300 transform hover:scale-105 border-2 border-green-400/50">
+                            Share Your Spooks 📱
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Live Leaderboard -->
+                <div class="lg:border-l lg:border-orange-500/30 lg:pl-8">
+                    <h3 class="text-2xl font-bold text-orange-300 mb-6 spooky-title">
+                        🏆 HAUNTED LEADERBOARD
+                    </h3>
+                    <div id="fullLeaderboard" class="space-y-3 max-h-96 overflow-y-auto">
+                        <!-- Full leaderboard will be populated here -->
+                    </div>
+                    <div class="mt-4 text-sm text-orange-400">
+                        Your rank: <span id="playerRank" class="font-bold text-orange-300">#?</span> out of <span id="totalPlayersResults">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96d6b922e4c740a5',t:'MTc1NDkwNDcyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
